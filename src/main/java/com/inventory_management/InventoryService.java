@@ -40,21 +40,26 @@ public class InventoryService {
 	private String BASE_FOLDER;
 
     public InventoryService() {
-        String os = System.getProperty("os.name").toLowerCase();
+    	String os = System.getProperty("os.name").toLowerCase();
         String javaVendor = System.getProperty("java.vendor").toLowerCase();
 
         if (javaVendor.contains("android") && os.contains("linux")) {
-            // Running on Android
+            // Android
             BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
-        } else if(os.contains("windows") || os.contains("linux")){
-            // Windows
-            BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\workspace-spring-tools-for-eclipse-4.31.0.RELEASE\\inventory_management\\";
+        } 
+        else if (os.contains("windows")) {
+            // Windows direct run
+            BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\inventory_app_files\\";
+        } 
+        else if (os.contains("linux")) {
+            // Docker (Linux inside container) → mapped to Windows
+            BASE_FOLDER = "/app/data/";
         }
 
         try {
-            java.nio.file.Files.createDirectories(java.nio.file.Paths.get(BASE_FOLDER));
+            Files.createDirectories(Paths.get(BASE_FOLDER));
             System.out.println("Base folder created at: " + BASE_FOLDER);
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Could not create base folder: " + BASE_FOLDER, e);
         }
     }
