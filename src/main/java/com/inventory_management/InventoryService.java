@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
@@ -35,11 +37,29 @@ import com.lowagie.text.pdf.PdfPTable;
 @Service
 public class InventoryService {
 	
-	private static final String BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\workspace-spring-tools-for-eclipse-4.31.0.RELEASE\\inventory_management\\";
-	
+	private static String BASE_FOLDER;
+
+    public InventoryService(
+        @Value("${file.base-folder.windows}") String windowsPath,
+        @Value("${file.base-folder.android}") String androidPath
+    ) {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("linux")) {
+            BASE_FOLDER = androidPath; // Android
+        } else {
+            BASE_FOLDER = windowsPath; // Windows
+        }
+
+        try {
+            Files.createDirectories(Paths.get(BASE_FOLDER));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create base folder: " + BASE_FOLDER, e);
+        }
+    }
+    
 	public String createCsvFile(String csvFileName) throws IOException {
 		
-		String newFileName = csvFileName+".csv";
+		String newFileName = BASE_FOLDER+csvFileName+".csv";
 	
         Path path = Paths.get(newFileName);
 
