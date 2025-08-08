@@ -43,13 +43,10 @@ public class InventoryService {
         String os = System.getProperty("os.name").toLowerCase();
         String javaVendor = System.getProperty("java.vendor").toLowerCase();
 
-        if (os.contains("linux") && javaVendor.contains("android")) {
+        if (javaVendor.contains("android")) {
             // Running on Android
             BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
-        } else if (os.contains("linux")) {
-            // Normal Linux PC
-            BASE_FOLDER = "/home/user/InventoryApp/";
-        } else {
+        } else if(os.contains("windows") || os.contains("linux")){
             // Windows
             BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\workspace-spring-tools-for-eclipse-4.31.0.RELEASE\\inventory_management\\";
         }
