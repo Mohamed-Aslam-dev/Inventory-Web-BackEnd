@@ -43,7 +43,7 @@ public class InventoryService {
         String os = System.getProperty("os.name").toLowerCase();
         String javaVendor = System.getProperty("java.vendor").toLowerCase();
 
-        if (javaVendor.contains("android")) {
+        if (javaVendor.contains("android") && os.contains("linux")) {
             // Running on Android
             BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
         } else if(os.contains("windows") || os.contains("linux")){
