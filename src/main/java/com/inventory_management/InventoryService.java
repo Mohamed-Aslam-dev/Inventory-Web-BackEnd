@@ -37,24 +37,33 @@ import com.lowagie.text.pdf.PdfPTable;
 @Service
 public class InventoryService {
 	
-	private static String BASE_FOLDER;
+	private String BASE_FOLDER;
 
-    public InventoryService(
-        @Value("${file.base-folder.windows}") String windowsPath,
-        @Value("${file.base-folder.android}") String androidPath
-    ) {
+    public InventoryService() {
         String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("linux")) {
-            BASE_FOLDER = androidPath; // Android
+        String javaVendor = System.getProperty("java.vendor").toLowerCase();
+
+        if (os.contains("linux") && javaVendor.contains("android")) {
+            // Running on Android
+            BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
+        } else if (os.contains("linux")) {
+            // Normal Linux PC
+            BASE_FOLDER = "/home/user/InventoryApp/";
         } else {
-            BASE_FOLDER = windowsPath; // Windows
+            // Windows
+            BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\workspace-spring-tools-for-eclipse-4.31.0.RELEASE\\inventory_management\\";
         }
 
         try {
-            Files.createDirectories(Paths.get(BASE_FOLDER));
-        } catch (IOException e) {
+            java.nio.file.Files.createDirectories(java.nio.file.Paths.get(BASE_FOLDER));
+            System.out.println("Base folder created at: " + BASE_FOLDER);
+        } catch (java.io.IOException e) {
             throw new RuntimeException("Could not create base folder: " + BASE_FOLDER, e);
         }
+    }
+
+    public String getBaseFolder() {
+        return BASE_FOLDER;
     }
     
 	public String createCsvFile(String csvFileName) throws IOException {
