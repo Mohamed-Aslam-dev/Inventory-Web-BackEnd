@@ -42,10 +42,10 @@ public class InventoryService {
             // Windows direct run
             BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\inventory_app_files\\";
         } 
-//        else if (os.contains("linux")) {
-//            // Docker (Linux inside container) → mapped to Windows
-//            BASE_FOLDER = "/app/data/";
-//        }
+        else if (os.contains("linux")) {
+            // Docker (Linux inside container) → mapped to Windows
+            BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
+        }
 
         try {
             Files.createDirectories(Paths.get(BASE_FOLDER));
