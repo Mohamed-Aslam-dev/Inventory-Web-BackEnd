@@ -21,15 +21,6 @@ import org.springframework.stereotype.Service;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfWriter;
-//import com.lowagie.text.Document;
-//import com.lowagie.text.Font;
-//import com.lowagie.text.FontFactory;
-//import com.lowagie.text.Paragraph;
-//import com.lowagie.text.Phrase;
-//import com.lowagie.text.pdf.PdfPCell;
-//import com.lowagie.text.pdf.PdfPTable;
-//import com.lowagie.text.pdf.PdfWriter;
-//import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPTable;
 
 
@@ -43,7 +34,7 @@ public class InventoryService {
     	String os = System.getProperty("os.name").toLowerCase();
         String javaVendor = System.getProperty("java.vendor").toLowerCase();
 
-        if (javaVendor.contains("android") && os.contains("linux")) {
+        if (os.contains("linux") && javaVendor.contains("android")) {
             // Android
             BASE_FOLDER = "/storage/emulated/0/InventoryApp/";
         } 
@@ -51,10 +42,10 @@ public class InventoryService {
             // Windows direct run
             BASE_FOLDER = "C:\\Users\\Aslam\\Documents\\inventory_app_files\\";
         } 
-        else if (os.contains("linux")) {
-            // Docker (Linux inside container) → mapped to Windows
-            BASE_FOLDER = "/app/data/";
-        }
+//        else if (os.contains("linux")) {
+//            // Docker (Linux inside container) → mapped to Windows
+//            BASE_FOLDER = "/app/data/";
+//        }
 
         try {
             Files.createDirectories(Paths.get(BASE_FOLDER));
