@@ -150,11 +150,11 @@ public class InventoryService {
 	        document.add(new Paragraph(formattedDate, headerFont));
 	        document.add(Chunk.NEWLINE);
 
-	        PdfPTable table = new PdfPTable(2); // 2 columns: Name and Quantity
+	        PdfPTable table = new PdfPTable(3); // 3 columns: Name and Quantity
 	        table.setWidthPercentage(100);
 
 	        // Table headers
-	        Stream.of("Name", "Quantity").forEach(header -> {
+	        Stream.of("Name", "Quantity", "Unit").forEach(header -> {
 	            PdfPCell cell = new PdfPCell();
 	            cell.setPhrase(new Phrase(header, headerFont));
 	            table.addCell(cell);
@@ -164,6 +164,7 @@ public class InventoryService {
 	        for (ProductsDTO product : products) {
 	            table.addCell(new Phrase(product.getProductName(), contentFont));
 	            table.addCell(new Phrase(String.valueOf(product.getProductQuantity()), contentFont));
+	            table.addCell(new Phrase(product.getProductUnit(), contentFont));
 	        }
 
 	        document.add(table);
